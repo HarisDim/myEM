@@ -1,0 +1,80 @@
+﻿@page
+@model myEM.Pages.Employees.IndexModel
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<h1>Employees</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Search by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Employees[0].FirstName)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort">
+                    @Html.DisplayNameFor(model => model.Employees[0].LastName)
+                </a>
+                @if (Model.NameSort.Equals(""))
+                {<a>desc</a>}
+                else 
+                {<a>asc</a> }
+
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort">
+                    @Html.DisplayNameFor(model => model.Employees[0].HiringDate)
+                </a>
+                @if (Model.DateSort.Equals("date"))
+                {<a>desc</a> }
+                else 
+                {<a>asc</a>}
+            </th>
+            <th>
+                 @Html.DisplayNameFor(model => model.Employees[0].Details)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Employees) 
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HiringDate)
+            </td>
+            <td style="word-break:break-word;">
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                <a class="btn btn-outline-dark" asp-page="./Details" asp-route-id="@item.ID">
+                    <i class="fa fa-edit"></i>
+                </a> 
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
